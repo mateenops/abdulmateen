@@ -74,10 +74,6 @@ AppDataSource.initialize()
     app.use('/api/chat', createChatRoutes(chatController));
     app.use('/api/subscriptions', createSubscriptionRoutes(subscriptionController));
 
-    app.get('/health', (req, res) => {
-      res.json({ status: 'OK', timestamp: new Date().toISOString() });
-    });
-
     app.use(errorHandler);
 
     // 404 handler
