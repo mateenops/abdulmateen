@@ -1,0 +1,52 @@
+# Chat Endpoints
+/api/chat:
+  post:
+    tags:
+      - Chat
+    summary: Send a chat message to AI
+    description: |
+      Process a user question and return an AI response. This endpoint:
+      - Checks user's free quota (3 messages per month)
+      - Falls back to subscription quota if free quota is exhausted
+      - Deducts usage from the subscription with the highest remaining quota
+      - Returns structured errors if no quota is available
+      - Simulates OpenAI API response time
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChatRequest'
+          example:
+            userId: '123e4567-e89b-12d3-a456-426614174000'
+            question: 'What is artificial intelligence and how does it work?'
+    responses:
+      '200':
+        description: Chat response generated successfully
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiSuccess'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/ChatResponse'
+            example:
+              success: true
+              data:
+                id: '323e4567-e89b-12d3-a456-426614170001'
+                question: 'What is artificial intelligence and how does it work?'
+                answer: 'Artificial Intelligence (AI) is a branch of computer science that aims to create intelligent machines that can perform tasks that typically require human intelligence...'
+                tokensUsed: 85
+                createdAt: '2024-01-01T12:30:00.000Z'
+      '400':
+        $ref: '#/components/responses/BadRequest'
+      '402':
+        $ref: '#/components/responses/PaymentRequired'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '429':
+        $ref: '#/components/responses/TooManyRequests'
+      '500':
+        $ref: '#/components/responses/InternalServerError'

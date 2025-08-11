@@ -1,0 +1,19 @@
+# Health Check Endpoints
+/health:
+  get:
+    tags:
+      - Health
+    summary: Health check endpoint
+    description: Returns the current status of the API server
+    responses:
+      '200':
+        description: Server is healthy
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthResponse'
+            example:
+              status: 'OK'
+              timestamp: '2024-01-01T12:00:00.000Z'
+              version: '1.0.0'
+              uptime: 1234.567

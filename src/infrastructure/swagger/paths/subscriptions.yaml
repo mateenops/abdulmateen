@@ -1,0 +1,175 @@
+# Subscription Endpoints
+/api/subscriptions:
+  post:
+    tags:
+      - Subscriptions
+    summary: Create a new subscription
+    description: |
+      Create a new subscription for a user. Features:
+      - Support for BASIC (10 messages), PRO (100 messages), and ENTERPRISE (unlimited) tiers
+      - Monthly or yearly billing cycles
+      - Automatic renewal configuration
+      - Immediate activation upon creation
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateSubscriptionRequest'
+          examples:
+            basic_monthly:
+              summary: Basic Monthly Subscription
+              value:
+                userId: '123e4567-e89b-12d3-a456-426614174000'
+                tier: 'BASIC'
+                billingCycle: 'MONTHLY'
+                autoRenew: true
+            pro_yearly:
+              summary: Pro Yearly Subscription
+              value:
+                userId: '123e4567-e89b-12d3-a456-426614174000'
+                tier: 'PRO'
+                billingCycle: 'YEARLY'
+                autoRenew: true
+            enterprise:
+              summary: Enterprise Subscription
+              value:
+                userId: '123e4567-e89b-12d3-a456-426614174000'
+                tier: 'ENTERPRISE'
+                billingCycle: 'MONTHLY'
+                autoRenew: false
+    responses:
+      '201':
+        description: Subscription created successfully
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiSuccess'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/SubscriptionResponse'
+            example:
+              success: true
+              data:
+                id: '223e4567-e89b-12d3-a456-426614174000'
+                tier: 'BASIC'
+                billingCycle: 'MONTHLY'
+                maxMessages: 10
+                messagesUsed: 0
+                price: 9.99
+                startDate: '2024-01-01T00:00:00.000Z'
+                endDate: '2024-02-01T00:00:00.000Z'
+                autoRenew: true
+                status: 'ACTIVE'
+                remainingQuota: 10
+      '400':
+        $ref: '#/components/responses/BadRequest'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+/api/subscriptions/user/{userId}:
+  get:
+    tags:
+      - Subscriptions
+    summary: Get user's subscriptions
+    description: |
+      Retrieve all subscriptions for a specific user, including:
+      - Active subscriptions with current usage
+      - Expired and cancelled subscriptions
+      - Historical subscription data
+      - Remaining quota information
+    parameters:
+      - $ref: '#/components/parameters/UserIdPath'
+      - $ref: '#/components/parameters/PageQuery'
+      - $ref: '#/components/parameters/LimitQuery'
+    responses:
+      '200':
+        description: User subscriptions retrieved successfully
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiSuccess'
+                - type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/SubscriptionResponse'
+            example:
+              success: true
+              data:
+                - id: '223e4567-e89b-12d3-a456-426614174000'
+                  tier: 'BASIC'
+                  billingCycle: 'MONTHLY'
+                  maxMessages: 10
+                  messagesUsed: 3
+                  price: 9.99
+                  startDate: '2024-01-01T00:00:00.000Z'
+                  endDate: '2024-02-01T00:00:00.000Z'
+                  autoRenew: true
+                  status: 'ACTIVE'
+                  remainingQuota: 7
+                - id: '223e4567-e89b-12d3-a456-426614174001'
+                  tier: 'PRO'
+                  billingCycle: 'YEARLY'
+                  maxMessages: 100
+                  messagesUsed: 100
+                  price: 299.99
+                  startDate: '2023-12-01T00:00:00.000Z'
+                  endDate: '2023-12-31T23:59:59.000Z'
+                  autoRenew: false
+                  status: 'EXPIRED'
+                  remainingQuota: 0
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+/api/subscriptions/{id}/cancel:
+  patch:
+    tags:
+      - Subscriptions
+    summary: Cancel a subscription
+    description: |
+      Cancel an active subscription. This will:
+      - Disable auto-renewal
+      - Mark subscription as cancelled
+      - Allow usage until the current billing period ends
+      - Preserve all usage history
+    parameters:
+      - $ref: '#/components/parameters/SubscriptionIdPath'
+    responses:
+      '200':
+        description: Subscription cancelled successfully
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiSuccess'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/SubscriptionResponse'
+            example:
+              success: true
+              data:
+                id: '223e4567-e89b-12d3-a456-426614174000'
+                tier: 'BASIC'
+                billingCycle: 'MONTHLY'
+                maxMessages: 10
+                messagesUsed: 3
+                price: 9.99
+                startDate: '2024-01-01T00:00:00.000Z'
+                endDate: '2024-02-01T00:00:00.000Z'
+                autoRenew: false
+                status: 'CANCELLED'
+                remainingQuota: 7
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'

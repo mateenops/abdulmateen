@@ -1,0 +1,57 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript
+dist/
+build/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.*.local
+
+# Logs
+logs/
+*.log
+log/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Coverage
+coverage/
+
+src/uploads/
+
+# Optional: PM2 process files
+pids/
+*.pid
+
+# Optional: local database files
+*.sqlite
+*.db
+
+# Optional: eslint cache
+.eslintcache
+
+# Optional: Turbo/Next.js monorepo cache (if using Turbo)
+.turbo/
+
+# Optional: Fastify Swagger static docs (if generated)
+docs/static/swagger*
+
+# Optional: test coverage outputs
+.nyc_output/
