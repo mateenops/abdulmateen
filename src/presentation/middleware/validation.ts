@@ -10,9 +10,9 @@ export const validateBody = <T extends object>(DtoClass: new () => T) => {
       const errors = await validate(dto as object);
 
       if (errors.length > 0) {
-        const errorMessages = errors.map(error => 
-          Object.values(error.constraints || {}).join(', ')
-        ).join('; ');
+        const errorMessages = errors
+          .map(error => Object.values(error.constraints || {}).join(', '))
+          .join('; ');
 
         throw new AppError(errorMessages, ErrorCode.VALIDATION_ERROR, 400);
       }

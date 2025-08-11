@@ -19,7 +19,11 @@ export class SubscriptionController {
     }
   };
 
-  public getUserSubscriptions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getUserSubscriptions = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     try {
       const { userId } = req.params;
       const subscriptions = await this.subscriptionService.getUserSubscriptions(userId!);

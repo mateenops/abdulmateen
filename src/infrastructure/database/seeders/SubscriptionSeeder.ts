@@ -1,5 +1,10 @@
 import { Repository } from 'typeorm';
-import { Subscription, SubscriptionTier, BillingCycle, SubscriptionStatus } from '../../../domain/entities/Subscription';
+import {
+  Subscription,
+  SubscriptionTier,
+  BillingCycle,
+  SubscriptionStatus,
+} from '../../../domain/entities/Subscription';
 import { User } from '../../../domain/entities/User';
 import { AppDataSource } from '../config';
 import { addMonths, addYears, subDays, addDays } from 'date-fns';
@@ -111,7 +116,7 @@ export class SubscriptionSeeder {
 
     for (const subData of seedData) {
       const existingSubscription = await this.repository.findOne({
-        where: { id: subData.id }
+        where: { id: subData.id },
       });
 
       if (!existingSubscription) {
@@ -127,7 +132,9 @@ export class SubscriptionSeeder {
 
         const savedSubscription = await this.repository.save(subscription);
         subscriptions.push(savedSubscription);
-        console.log(`Created subscription: ${savedSubscription.tier} for user ${savedSubscription.userId}`);
+        console.log(
+          `Created subscription: ${savedSubscription.tier} for user ${savedSubscription.userId}`
+        );
       } else {
         subscriptions.push(existingSubscription);
         console.log(`Subscription already exists: ${existingSubscription.id}`);

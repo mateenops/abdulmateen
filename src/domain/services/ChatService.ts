@@ -77,17 +77,19 @@ export class ChatService {
     await this.subscriptionRepo.save(subscription!);
   }
 
-  private async simulateOpenAICall(question: string): Promise<{ answer: string; tokensUsed: number }> {
+  private async simulateOpenAICall(
+    question: string
+  ): Promise<{ answer: string; tokensUsed: number }> {
     // Simulate API delay
     const delay = parseInt(process.env.OPENAI_API_DELAY_MS || '2000', 10);
     await new Promise(resolve => setTimeout(resolve, delay));
 
     // Mock response
     const answers = [
-      'That\'s a great question! Based on my knowledge, here\'s what I can tell you...',
+      "That's a great question! Based on my knowledge, here's what I can tell you...",
       'I understand your question. Let me provide you with a comprehensive answer...',
-      'Thanks for asking! Here\'s my response to your inquiry...',
-      'That\'s an interesting topic. Allow me to explain...',
+      "Thanks for asking! Here's my response to your inquiry...",
+      "That's an interesting topic. Allow me to explain...",
     ];
 
     const randomAnswer = answers[Math.floor(Math.random() * answers.length)];

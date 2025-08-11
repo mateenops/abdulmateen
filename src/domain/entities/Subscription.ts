@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from './User';
 
 export enum SubscriptionTier {
@@ -80,9 +88,7 @@ export class Subscription {
   public isActive(): boolean {
     const now = new Date();
     return (
-      this.status === SubscriptionStatus.ACTIVE &&
-      this.startDate <= now &&
-      this.endDate >= now
+      this.status === SubscriptionStatus.ACTIVE && this.startDate <= now && this.endDate >= now
     );
   }
 

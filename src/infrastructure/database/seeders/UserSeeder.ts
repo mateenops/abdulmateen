@@ -65,7 +65,7 @@ export class UserSeeder {
 
     for (const userData of seedData) {
       const existingUser = await this.repository.findOne({
-        where: { email: userData.email }
+        where: { email: userData.email },
       });
 
       if (!existingUser) {

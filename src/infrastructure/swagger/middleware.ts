@@ -28,30 +28,27 @@ const swaggerUiOptions: swaggerUi.SwaggerUiOptions = {
     requestSnippetsEnabled: true,
     requestSnippets: {
       generators: {
-        'curl_bash': {
+        curl_bash: {
           title: 'cURL (bash)',
-          syntax: 'bash'
+          syntax: 'bash',
         },
-        'javascript_fetch': {
+        javascript_fetch: {
           title: 'JavaScript (fetch)',
-          syntax: 'javascript'  
+          syntax: 'javascript',
         },
-        'node_native': {
+        node_native: {
           title: 'Node.js (native)',
-          syntax: 'javascript'
-        }
+          syntax: 'javascript',
+        },
       },
       defaultExpanded: false,
-      languages: ['curl_bash', 'javascript_fetch', 'node_native']
-    }
-  }
+      languages: ['curl_bash', 'javascript_fetch', 'node_native'],
+    },
+  },
 };
 
 // Middleware to serve Swagger documentation
-export const swaggerMiddleware = [
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, swaggerUiOptions)
-];
+export const swaggerMiddleware = [swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions)];
 
 // Middleware to serve swagger.json
 export const swaggerJsonMiddleware = (req: Request, res: Response): void => {
@@ -73,12 +70,12 @@ export const enhancedHealthCheck = (req: Request, res: Response): void => {
     documentation: {
       swagger: '/api-docs',
       json: '/api-docs/json',
-      postman: '/api-docs/postman.json'
+      postman: '/api-docs/postman.json',
     },
     endpoints: {
       health: '/health',
       chat: '/api/chat',
-      subscriptions: '/api/subscriptions'
-    }
+      subscriptions: '/api/subscriptions',
+    },
   });
 };

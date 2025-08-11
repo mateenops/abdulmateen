@@ -61,10 +61,7 @@ AppDataSource.initialize()
       userRepository,
       subscriptionRepository
     );
-    const subscriptionService = new SubscriptionService(
-      subscriptionRepository,
-      userRepository
-    );
+    const subscriptionService = new SubscriptionService(subscriptionRepository, userRepository);
 
     // Initialize controllers
     const chatController = new ChatController(chatService);
@@ -83,7 +80,7 @@ AppDataSource.initialize()
         error: {
           code: 'NOT_FOUND',
           message: 'Route not found',
-          hint: 'Visit /api-docs for API documentation'
+          hint: 'Visit /api-docs for API documentation',
         },
       });
     });
@@ -96,17 +93,19 @@ AppDataSource.initialize()
       console.log(`📮 Postman Collection: http://localhost:${port}/api-docs/postman.json`);
     });
 
-    setInterval(async () => {
-      try {
-        await subscriptionService.processRenewals();
-        console.log('Subscription renewals processed');
-      } catch (error) {
-        console.error('Error processing renewals:', error);
-      }
-    }, 60 * 60 * 1000);
-
+    setInterval(
+      async () => {
+        try {
+          await subscriptionService.processRenewals();
+          console.log('Subscription renewals processed');
+        } catch (error) {
+          console.error('Error processing renewals:', error);
+        }
+      },
+      60 * 60 * 1000
+    );
   })
-  .catch((error) => {
+  .catch(error => {
     console.error('Database connection failed:', error);
     process.exit(1);
   });

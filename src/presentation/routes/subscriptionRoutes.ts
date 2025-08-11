@@ -3,7 +3,9 @@ import { SubscriptionController } from '../controllers/SubscriptionController';
 import { validateBody } from '../middleware/validation';
 import { CreateSubscriptionDto } from '../../application/dtos/SubscriptionDto';
 
-export const createSubscriptionRoutes = (subscriptionController: SubscriptionController): Router => {
+export const createSubscriptionRoutes = (
+  subscriptionController: SubscriptionController
+): Router => {
   const router = Router();
 
   router.post('/', validateBody(CreateSubscriptionDto), subscriptionController.create);

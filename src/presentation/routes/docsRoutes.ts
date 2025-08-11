@@ -18,7 +18,7 @@ export const createDocsRoutes = (): Router => {
         name: 'AI Chat & Subscription API',
         description: 'API collection for AI Chat & Subscription System',
         version: '1.0.0',
-        schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'
+        schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
       },
       auth: {
         type: 'bearer',
@@ -26,21 +26,21 @@ export const createDocsRoutes = (): Router => {
           {
             key: 'token',
             value: '{{auth_token}}',
-            type: 'string'
-          }
-        ]
+            type: 'string',
+          },
+        ],
       },
       variable: [
         {
           key: 'base_url',
           value: 'http://localhost:3000',
-          type: 'string'
+          type: 'string',
         },
         {
           key: 'user_id',
           value: '123e4567-e89b-12d3-a456-426614174000',
-          type: 'string'
-        }
+          type: 'string',
+        },
       ],
       item: [
         {
@@ -51,9 +51,9 @@ export const createDocsRoutes = (): Router => {
             url: {
               raw: '{{base_url}}/health',
               host: ['{{base_url}}'],
-              path: ['health']
-            }
-          }
+              path: ['health'],
+            },
+          },
         },
         {
           name: 'Send Chat Message',
@@ -62,22 +62,22 @@ export const createDocsRoutes = (): Router => {
             header: [
               {
                 key: 'Content-Type',
-                value: 'application/json'
-              }
+                value: 'application/json',
+              },
             ],
             body: {
               mode: 'raw',
               raw: JSON.stringify({
                 userId: '{{user_id}}',
-                question: 'What is artificial intelligence?'
-              })
+                question: 'What is artificial intelligence?',
+              }),
             },
             url: {
               raw: '{{base_url}}/api/chat',
               host: ['{{base_url}}'],
-              path: ['api', 'chat']
-            }
-          }
+              path: ['api', 'chat'],
+            },
+          },
         },
         {
           name: 'Create Subscription',
@@ -86,8 +86,8 @@ export const createDocsRoutes = (): Router => {
             header: [
               {
                 key: 'Content-Type',
-                value: 'application/json'
-              }
+                value: 'application/json',
+              },
             ],
             body: {
               mode: 'raw',
@@ -95,15 +95,15 @@ export const createDocsRoutes = (): Router => {
                 userId: '{{user_id}}',
                 tier: 'BASIC',
                 billingCycle: 'MONTHLY',
-                autoRenew: true
-              })
+                autoRenew: true,
+              }),
             },
             url: {
               raw: '{{base_url}}/api/subscriptions',
               host: ['{{base_url}}'],
-              path: ['api', 'subscriptions']
-            }
-          }
+              path: ['api', 'subscriptions'],
+            },
+          },
         },
         {
           name: 'Get User Subscriptions',
@@ -113,11 +113,11 @@ export const createDocsRoutes = (): Router => {
             url: {
               raw: '{{base_url}}/api/subscriptions/user/{{user_id}}',
               host: ['{{base_url}}'],
-              path: ['api', 'subscriptions', 'user', '{{user_id}}']
-            }
-          }
-        }
-      ]
+              path: ['api', 'subscriptions', 'user', '{{user_id}}'],
+            },
+          },
+        },
+      ],
     };
 
     res.json(postmanCollection);

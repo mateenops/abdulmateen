@@ -17,7 +17,7 @@ class DatabaseSeeder {
 
   public async seedAll(options: { clear?: boolean } = {}): Promise<void> {
     console.log('🌱 Starting database seeding...');
-    
+
     try {
       if (options.clear) {
         await this.clearAll();
@@ -25,10 +25,10 @@ class DatabaseSeeder {
 
       // Seed users first (required for foreign keys)
       const users = await this.userSeeder.seed();
-      
+
       // Seed subscriptions
       const subscriptions = await this.subscriptionSeeder.seed(users);
-      
+
       // Seed chat messages
       const messages = await this.chatMessageSeeder.seed(users);
 
@@ -37,7 +37,6 @@ class DatabaseSeeder {
       console.log(`   👥 Users: ${users.length}`);
       console.log(`   💳 Subscriptions: ${subscriptions.length}`);
       console.log(`   💬 Chat Messages: ${messages.length}`);
-      
     } catch (error) {
       console.error('❌ Error during seeding:', error);
       throw error;
@@ -46,12 +45,12 @@ class DatabaseSeeder {
 
   public async clearAll(): Promise<void> {
     console.log('🧹 Clearing all seed data...');
-    
+
     // Clear in reverse order due to foreign key constraints
     await this.chatMessageSeeder.clear();
     await this.subscriptionSeeder.clear();
     await this.userSeeder.clear();
-    
+
     console.log('✅ All seed data cleared');
   }
 
@@ -102,10 +101,11 @@ async function runSeeder(): Promise<void> {
         await seeder.clearAll();
         break;
       default:
-        console.log('❌ Unknown command. Available commands: all, users, subscriptions, messages, clear');
+        console.log(
+          '❌ Unknown command. Available commands: all, users, subscriptions, messages, clear'
+        );
         process.exit(1);
     }
-
   } catch (error) {
     console.error('❌ Seeding failed:', error);
     process.exit(1);

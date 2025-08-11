@@ -1,6 +1,9 @@
 import { ISubscriptionRepository } from '../../domain/repositories/ISubscriptionRepository';
 import { IUserRepository } from '../../domain/repositories/IUserRepository';
-import { CreateSubscriptionDto, SubscriptionResponseDto } from '../../application/dtos/SubscriptionDto';
+import {
+  CreateSubscriptionDto,
+  SubscriptionResponseDto,
+} from '../../application/dtos/SubscriptionDto';
 import { Subscription, SubscriptionStatus } from '../../domain/entities/Subscription';
 import { SubscriptionPricingService } from '../../domain/services/SubscriptionPricingService';
 import { AppError, ErrorCode } from '../../shared/types/index';
@@ -22,9 +25,8 @@ export class SubscriptionService {
     const maxMessages = SubscriptionPricingService.getMaxMessages(dto.tier);
 
     const startDate = new Date();
-    const endDate = dto.billingCycle === 'MONTHLY'
-      ? addMonths(startDate, 1)
-      : addYears(startDate, 1);
+    const endDate =
+      dto.billingCycle === 'MONTHLY' ? addMonths(startDate, 1) : addYears(startDate, 1);
 
     const subscription = await this.subscriptionRepo.create({
       userId: dto.userId,
@@ -75,9 +77,10 @@ export class SubscriptionService {
         // Renew subscription
         subscription.messagesUsed = 0;
         subscription.startDate = new Date();
-        subscription.endDate = subscription.billingCycle === 'MONTHLY'
-          ? addMonths(subscription.startDate, 1)
-          : addYears(subscription.startDate, 1);
+        subscription.endDate =
+          subscription.billingCycle === 'MONTHLY'
+            ? addMonths(subscription.startDate, 1)
+            : addYears(subscription.startDate, 1);
         subscription.renewalDate = subscription.endDate;
 
         await this.subscriptionRepo.save(subscription);
