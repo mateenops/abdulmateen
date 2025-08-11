@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "AI Chat system with subscription management using DDD",
   "main": "dist/index.js",
+  "author": {
+    "email": "mateeniem@gmail.com",
+    "name": "Abdul Mateen"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
